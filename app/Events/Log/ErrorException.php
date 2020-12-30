@@ -11,13 +11,11 @@ namespace App\Events\Log;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Event;
 
-class ErrorException  extends Event
-{
+class ErrorException extends Event {
     use SerializesModels;
-    public  $exception;
+    public $exception;
 
-    public function __construct($exception)
-    {
+    public function __construct($exception) {
         $this->exception = $exception;
     }
 

@@ -9,8 +9,7 @@ use DB;
 
 use Larfree\Models\Api;
 
-class AuthRole extends Api
-{
+class AuthRole extends Api {
     use AuthRoleScope;
     protected $casts = [
         'tree_nav' => 'array',
@@ -21,8 +20,7 @@ class AuthRole extends Api
      * @param $name
      * @return mixed
      */
-    public function getRoleTreeNav($name)
-    {
+    public function getRoleTreeNav($name) {
         $data = self::query()->where('name', $name)->first();
         if ($data) {
             return $data->tree_nave;
@@ -34,8 +32,7 @@ class AuthRole extends Api
      * @return AdminNav|array
      * @throws \Exception
      */
-    public function getUserTreeNav()
-    {
+    public function getUserTreeNav() {
 
         $data = $this->getUserRole('tree_nav');  //进来用户相应菜单的方法
         $res = [];
@@ -67,8 +64,7 @@ class AuthRole extends Api
      * @return mixed
      * @throws \Exception
      */
-    public function getUserRole($colum = 'name')
-    {
+    public function getUserRole($colum = 'name') {
 
         $commonUser = new CommonUser();  //orm 设计模式   代表common_user 这个表
         $data = [];
@@ -90,8 +86,7 @@ class AuthRole extends Api
      * @param null $group
      * @return bool
      */
-    public function checkPermission($permission_name, $group = null)
-    {
+    public function checkPermission($permission_name, $group = null) {
         if (empty($this->permission)) {
             return false;
         }
@@ -113,26 +108,25 @@ class AuthRole extends Api
      * @return array|bool
      * @throws \Exception
      */
-    public function getCurrentUserScopeId($cityScope=false)
-    {
+    public function getCurrentUserScopeId($cityScope = false) {
         $roles = $this->getUserRole('id'); //返回当前登录角色的roleIdd
         $data = self::query()->link()->select('id')->whereIn('id', $roles)->get();
         if ($data->isEmpty()) {
             return true;
         }
-        $res=[];
+        $res = [];
 
         foreach ($data as $i => $item) {
 
             if (!($item->scopes->isEmpty())) {
                 foreach ($item->scopes as $k => $src) {
 
-                    if($src->scope=='authCity' && $cityScope==true){
+                    if ($src->scope == 'authCity' && $cityScope == true) {
                         $res[] = $src->rule;
-                    }
-                    elseIf ($cityScope==false && $src->scope != 'authCity') {   //城市scope 得单独考虑
+                    } elseIf ($cityScope == false && $src->scope != 'authCity') {   //城市scope 得单独考虑
                         $res[] = $src->id;
-                    }{
+                    }
+                    {
 
                     }
                 }

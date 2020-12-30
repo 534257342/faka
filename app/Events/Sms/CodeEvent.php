@@ -10,8 +10,7 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class CodeEvent
-{
+class CodeEvent {
     use Dispatchable, InteractsWithSockets, SerializesModels;
     /**
      * @var string 手机号
@@ -21,23 +20,23 @@ class CodeEvent
      * @var string 手机验证码
      */
     protected $type;
+
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($phone,$type='smsCode')
-    {
+    public function __construct($phone, $type = 'smsCode') {
         $this->phone = $phone;
         $this->type = $type;
     }
 
 
-    public function getPhone(){
+    public function getPhone() {
         return $this->phone;
     }
 
-    public function getType(){
+    public function getType() {
         return $this->type;
     }
 
@@ -46,8 +45,7 @@ class CodeEvent
      *
      * @return \Illuminate\Broadcasting\Channel|array
      */
-    public function broadcastOn()
-    {
+    public function broadcastOn() {
         return new PrivateChannel('channel-name');
     }
 }

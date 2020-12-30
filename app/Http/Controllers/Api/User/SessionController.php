@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api\User;
 
 
-
 use App\Http\Controllers\Controller;
 use App\Models\Common\CommonApply;
 use App\Models\Common\CommonCode;
@@ -17,40 +16,38 @@ use Illuminate\Support\Facades\Log;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 
-class SessionController extends Controller
-{
+class SessionController extends Controller {
     use AuthenticatesUsers;
 
-    protected function guard()
-    {
+    protected function guard() {
         return Auth::guard("api");
     }
 
-    public function __construct()
-    {
-     //   $this->middleware('guest:api', ['except' => 'logout']);
+    public function __construct() {
+        //   $this->middleware('guest:api', ['except' => 'logout']);
     }
+
     public $in = [
-        'login' => [
-            'phone' => ['name' => '手机号', 'rule' => 'required|max:11|min:11'],
-            'code' => ['name' => '手机验证码'],
+        'login'          => [
+            'phone'    => ['name' => '手机号', 'rule' => 'required|max:11|min:11'],
+            'code'     => ['name' => '手机验证码'],
             'password' => ['name' => '登录密码'],
-            'openid' => ['rule' => 'required|unique'],
-            'unionid' => ['rule' => 'required|unique'],
+            'openid'   => ['rule' => 'required|unique'],
+            'unionid'  => ['rule' => 'required|unique'],
         ],
-        'register' => [
-            'phone' => ['name' => '手机号', 'rule' => 'max:11|min:11'],
-            'email' => ['name' => '邮箱', 'rule' => 'email'],
-            'code' => ['name' => '手机验证码', 'rule' => 'required'],
-            'password' => ['name' => '登录密码', 'rule' => 'required|min:6'],
-            'name' => ['name' => '姓名', 'rule' => 'required'],
+        'register'       => [
+            'phone'       => ['name' => '手机号', 'rule' => 'max:11|min:11'],
+            'email'       => ['name' => '邮箱', 'rule' => 'email'],
+            'code'        => ['name' => '手机验证码', 'rule' => 'required'],
+            'password'    => ['name' => '登录密码', 'rule' => 'required|min:6'],
+            'name'        => ['name' => '姓名', 'rule' => 'required'],
             'invite_code' => ['name' => '邀请码', 'rule' => 'required|unique'],
-            'openid' => ['rule' => 'required|unique'],
-            'unionid' => ['rule' => 'required|unique'],
+            'openid'      => ['rule' => 'required|unique'],
+            'unionid'     => ['rule' => 'required|unique'],
         ],
-        'forgetPwd' => [
-            'phone' => ['name' => '手机号', 'rule' => 'phone'],
-            'code' => ['name' => '验证码', 'rule' => 'required'],
+        'forgetPwd'      => [
+            'phone'    => ['name' => '手机号', 'rule' => 'phone'],
+            'code'     => ['name' => '验证码', 'rule' => 'required'],
             'password' => ['name' => '密码', 'rule' => 'required'],
         ],
         'updatePassword' => [
@@ -78,8 +75,7 @@ class SessionController extends Controller
      *   ),
      * )
      */
-    public function login(Request $request)
-    {
+    public function login(Request $request) {
         $rules['phone'] = 'sometimes | required | min:11 | max:11';
         $rules['email'] = 'sometimes | required | email';
         $User = new CommonUser();
@@ -90,7 +86,7 @@ class SessionController extends Controller
         if (!$user) {
             apiError('该手机未注册');
         }
-        if( $user->status == 0){
+        if ($user->status == 0) {
             apiError('该用户被封禁');
         }
         if ($data['phone']) {
@@ -120,8 +116,7 @@ class SessionController extends Controller
      *   ),
      * )
      */
-    public function logout()
-    {
+    public function logout() {
         JWTAuth::invalidate(JWTAuth::getToken());
         return Response()->success('', '退出成功');
     }
@@ -138,8 +133,7 @@ class SessionController extends Controller
      *   ),
      * )
      */
-    public function register(Request $request)
-    {
+    public function register(Request $request) {
         date_default_timezone_set('PRC');
         $rules['password'] = 'required|min:6|max:18';
         $rules['phone'] = 'min:11|max:11';
@@ -194,8 +188,7 @@ class SessionController extends Controller
      *   ),
      * )
      */
-    public function updatePassword(Request $request)
-    {
+    public function updatePassword(Request $request) {
         $rules['oldpwd'] = 'required|min:6|max:18';
         $rules['newpwd'] = 'required|min:6|max:18';
         LogData('用户修改密码');
@@ -232,8 +225,7 @@ class SessionController extends Controller
      *   ),
      * )
      */
-    public function forgetPwd(Request $request)
-    {
+    public function forgetPwd(Request $request) {
         $rules['password'] = 'required|min:6|max:18';
         $this->validate($request, $rules);
         $User = new CommonUser();
@@ -241,8 +233,7 @@ class SessionController extends Controller
     }
 
 
-    public function callPhoneBack1(Request $request)
-    {
+    public function callPhoneBack1(Request $request) {
         $expressPhone = new ExpressPhone();
 
 
@@ -254,18 +245,18 @@ class SessionController extends Controller
             $trueValue = $obj->variables;
             if (@$trueValue->callid) {
                 $log = @$obj->app_log;
-                $wavLog = @collect($log->applications)->where('app_name', 'record_session')->first()->app_data??null;
+                $wavLog = @collect($log->applications)->where('app_name', 'record_session')->first()->app_data ?? null;
                 $data = [
-                    'info_id' => $trueValue->callid??null,
+                    'info_id'        => $trueValue->callid ?? null,
                     //    'caller' => $trueValue->caller,
                     //    'callee' => $trueValue->callee,
-                    'caller_status' => $trueValue->billsec > 0 ? 'NORMAL_CLEARING' : $expressPhone->checkCallStatus(@$obj->variables->hangup_cause),
+                    'caller_status'  => $trueValue->billsec > 0 ? 'NORMAL_CLEARING' : $expressPhone->checkCallStatus(@$obj->variables->hangup_cause),
                     //     'callee_status' =>$expressPhone->checkCallStatus($trueValue->bridge_hangup_cause),
-                    'start_stamp' => @$trueValue->start_stamp??null,
-                    'answer_stamp' => @$trueValue->answer_stamp??null,
-                    'billsec' => @$trueValue->billsec??null,
-                    'last_bridge_to' => @$trueValue->last_bridge_to??null,
-                    'wavlog' => @$wavLog??null
+                    'start_stamp'    => @$trueValue->start_stamp ?? null,
+                    'answer_stamp'   => @$trueValue->answer_stamp ?? null,
+                    'billsec'        => @$trueValue->billsec ?? null,
+                    'last_bridge_to' => @$trueValue->last_bridge_to ?? null,
+                    'wavlog'         => @$wavLog ?? null
                 ];
                 $phone = $expressPhone->where('uuid', $data['last_bridge_to'])->first();
 
@@ -285,7 +276,7 @@ class SessionController extends Controller
 
                 $data = [
                     'callee_status' => $obj->variables->billsec > 0 ? 'NORMAL_CLEARING' : $expressPhone->checkCallStatus(@$obj->variables->hangup_cause),
-                    'uuid' => @$obj->variables->uuid??null,
+                    'uuid'          => @$obj->variables->uuid ?? null,
                 ];
 
                 $phone = $expressPhone->where('last_bridge_to', $data['uuid'])->first();
@@ -310,8 +301,8 @@ class SessionController extends Controller
     }
 
 
-    public function callPhoneBack(Request $request)
-    {   Log::debug('回调执行了');
+    public function callPhoneBack(Request $request) {
+        Log::debug('回调执行了');
         date_default_timezone_set('PRC');
         $expressPhone = new ExpressPhone();
         $data = (file_get_contents("php://input"));
@@ -321,22 +312,22 @@ class SessionController extends Controller
             if (@$trueValue->callid) {
                 @Log::debug('接受到主叫回调数据' . json_encode($obj->variables));
                 $log = @$obj->app_log;
-                $wavLog = @collect($log->applications)->where('app_name', 'record_session')->first()->app_data??null;
+                $wavLog = @collect($log->applications)->where('app_name', 'record_session')->first()->app_data ?? null;
                 $data = [
-                    'info_id' => $trueValue->callid??null,
-                    'caller_status' => $trueValue->billsec > 0 ? 'NORMAL_CLEARING' : $expressPhone->checkCallStatus(@$obj->variables->hangup_cause),
-                    'start_stamp' => @$trueValue->start_stamp??null,
-                    'answer_stamp' => @$trueValue->answer_stamp??null,
-                    'billsec' => @$trueValue->billsec??null,
-                    'last_bridge_to' => @$trueValue->last_bridge_to??null,
-                    'wavlog' => @$wavLog??null
+                    'info_id'        => $trueValue->callid ?? null,
+                    'caller_status'  => $trueValue->billsec > 0 ? 'NORMAL_CLEARING' : $expressPhone->checkCallStatus(@$obj->variables->hangup_cause),
+                    'start_stamp'    => @$trueValue->start_stamp ?? null,
+                    'answer_stamp'   => @$trueValue->answer_stamp ?? null,
+                    'billsec'        => @$trueValue->billsec ?? null,
+                    'last_bridge_to' => @$trueValue->last_bridge_to ?? null,
+                    'wavlog'         => @$wavLog ?? null
                 ];
-                event(new PhoneCallBack($trueValue->callid,@$trueValue->billsec));
+                event(new PhoneCallBack($trueValue->callid, @$trueValue->billsec));
             } else {
                 @Log::debug('接受到被叫回调数据' . json_encode($obj->variables));
                 $data = [
                     'callee_status' => $obj->variables->billsec > 0 ? 'NORMAL_CLEARING' : $expressPhone->checkCallStatus(@$obj->variables->hangup_cause),
-                    'uuid' => @$obj->variables->uuid??null,
+                    'uuid'          => @$obj->variables->uuid ?? null,
                 ];
             }
             $expressPhone->create($data);
@@ -348,8 +339,7 @@ class SessionController extends Controller
 
     }
 
-    public function callPhone(Request $request)
-    {
+    public function callPhone(Request $request) {
 
         $infoId = $request->infoId;
 
@@ -368,7 +358,6 @@ class SessionController extends Controller
             apiError('拨号异常');
         }
     }
-
 
 
 }

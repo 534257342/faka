@@ -7,24 +7,26 @@
  */
 
 namespace App\Support\Traits;
+
 use Illuminate\Support\Facades\Storage;
 
-trait OssStore{
+trait OssStore {
 
     /**
      * 上传阿里云oss
-     * @param $name =>文件名字;
+     * @param $name
+     * @param string $path
      * @return mixed
+     * @throws \Larfree\Exceptions\ApiException
+     * @author xiaopeng<xiaopeng@snqu.com>
      */
-    public function ossStore($name,$path='temp/')
-    {
+    public function ossStore($name, $path = 'temp/') {
         $storage = Storage::disk('oss');
-
         if ($storage->put($path . $name, file_get_contents(storage_path() . '/app/public/' . $name))) {
             $url = $storage->url($path . $name);  //oss 存储地址
             Storage::disk('public')->delete($name);  //删除本地pdf
             return $url;
-        }else{
+        } else {
             apiError('oss上传失败');
         }
 
@@ -35,19 +37,18 @@ trait OssStore{
      * @param $name
      * @param string $path
      * @return mixed
+     * @throws \Larfree\Exceptions\ApiException
+     * @author xiaopeng<xiaopeng@snqu.com>
      */
-    public function qiniuStore($name,$path='temp/')
-    {
+    public function qiniuStore($name, $path = 'temp/') {
         $storage = Storage::disk('qiniu');
         if ($storage->put($path . $name, file_get_contents(storage_path() . '/app/excel/' . $name))) {
             $url = $storage->url($path . $name);  //oss 存储地址
             Storage::disk('public')->delete($name);  //删除本地pdf
             return $url;
-        }else{
+        } else {
             apiError('oss上传失败');
         }
-
     }
-
 
 }

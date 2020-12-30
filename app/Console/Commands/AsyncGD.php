@@ -1,9 +1,15 @@
 <?php
+
+use App\Support\Facades\Queue;
+
 /**
  * 异步任务处理
  *
  * @project snto_yay_dev
  * @author xiaopeng<xiaopeng@snqu.com>
+ * @example
+ * //调用方法
+ * Queue::add('guard', ['is_model' => 1,'order' => ['id' => 12313],'callback' => ['App\Models\Common\CommonBanner', 'test2']], time() + 10);
  * @time 2020/12/30 14:17
  */
 
@@ -23,7 +29,6 @@ class AsyncGD extends Command {
     protected $signature = 'async:guard';
     protected $description = 'Command description';
     protected $rKey = 'guard';
-    protected $tris = 3;
 
     /**
      * 参数配置
@@ -104,8 +109,7 @@ class AsyncGD extends Command {
      */
     protected function doing($taskInfo, $taskId, $task) {
         try {
-
-
+            // 进程排他锁
             if (!$this->lock("job_doing_{$taskId}", 20)) {
                 $this->consoleInfo('set job lock failed', $taskId);
                 return true;

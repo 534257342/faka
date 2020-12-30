@@ -3,7 +3,6 @@
 namespace App\Support\Traits;
 
 
-use App\Models\Express\ExpressOrderCode;
 use Illuminate\Support\Facades\Redis;
 
 trait MyRedis {
@@ -17,6 +16,7 @@ trait MyRedis {
      */
     public function lock($key, $expire = 1) {
         $key = "lock_$key";
+        // redis新版本可以用，参数形式完成这个方法。这里可能形成永不过期
         if (Redis::setnx($key, 1)) {
             Redis::expire($key, $expire);
             return true;

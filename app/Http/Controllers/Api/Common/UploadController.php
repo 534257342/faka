@@ -14,19 +14,19 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Larfree\Controllers\ApisController as Controller;
 
-class UploadController extends Controller
-{
+class UploadController extends Controller {
     use  OssStore;
 
     /**
      * 图片上传使用这个方法即可
      * @param Request $request
      * @param string $type
-     * @return mixed
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     * @throws \Illuminate\Validation\ValidationException
+     * @throws \Larfree\Exceptions\ApiException
      * @author xiaopeng<xiaopeng@snqu.com>
      */
-    public function images(Request $request, $type = '')
-    {
+    public function images(Request $request, $type = '') {
         $rule = [
             'file' => 'required',
         ];
@@ -58,8 +58,7 @@ class UploadController extends Controller
      * )
      */
 
-    public function uploadInfo(Request $request)
-    {
+    public function uploadInfo(Request $request) {
         ini_set('memory_limit', '3072M');
         set_time_limit(0);
         if ($request->isMethod('post')) {
@@ -101,8 +100,7 @@ class UploadController extends Controller
         }
     }
 
-    function doUpload(Request $request)
-    {
+    function doUpload(Request $request) {
         $file = $request->file('video');
         if ($file->isValid()) {
             //$originalName = $file->getClientOriginalName(); // 文件原名

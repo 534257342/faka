@@ -5,8 +5,7 @@ namespace App\Exceptions;
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
-class Handler extends ExceptionHandler
-{
+class Handler extends ExceptionHandler {
     /**
      * A list of the exception types that are not reported.
      *
@@ -29,11 +28,10 @@ class Handler extends ExceptionHandler
     /**
      * Report or log an exception.
      *
-     * @param  \Exception  $exception
+     * @param \Exception $exception
      * @return void
      */
-    public function report(Exception $exception)
-    {
+    public function report(Exception $exception) {
         parent::report($exception);
     }
 
@@ -44,8 +42,7 @@ class Handler extends ExceptionHandler
      *
      * @return bool
      */
-    protected function shouldntReport(Exception $exception)
-    {
+    protected function shouldntReport(Exception $exception) {
         $dontReport = array_merge($this->dontReport, [HttpResponseException::class]);
         foreach ($dontReport as $type) {
             if ($exception instanceof $type) {
@@ -58,21 +55,20 @@ class Handler extends ExceptionHandler
     /**
      * Render an exception into an HTTP response.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Exception  $exception
+     * @param \Illuminate\Http\Request $request
+     * @param \Exception $exception
      * @return \Illuminate\Http\Response
      */
-    public function render($request, Exception $exception)
-    {
-        if(method_exists($exception,'getCode')){
-            $code=($exception->getCode());
-            if($code==0){
-                if(method_exists($exception,'getStatusCode')){
-                    $code=($exception->getStatusCode());
+    public function render($request, Exception $exception) {
+        if (method_exists($exception, 'getCode')) {
+            $code = ($exception->getCode());
+            if ($code == 0) {
+                if (method_exists($exception, 'getStatusCode')) {
+                    $code = ($exception->getStatusCode());
                 }
             }
-        }else{
-            $code=($exception->getStatusCode());
+        } else {
+            $code = ($exception->getStatusCode());
         }
 
         $enableEmailExceptions = config('exceptions.emailExceptionEnabled');
@@ -84,7 +80,7 @@ class Handler extends ExceptionHandler
 
         try {
 
-            if ($enableEmailExceptions && $this->shouldReport($exception) && ($code >= 500 || $code==0)) {
+            if ($enableEmailExceptions && $this->shouldReport($exception) && ($code >= 500 || $code == 0)) {
                 $this->logInMysql($exception);
             }
         } catch (Exception $e) {
@@ -108,9 +104,7 @@ class Handler extends ExceptionHandler
     }
 
 
-
-    public function sendEmail(Exception $exception)
-    {
+    public function sendEmail(Exception $exception) {
 
         $e = FlattenException::create($exception);
         $handler = new SymfonyExceptionHandler();
@@ -133,7 +127,7 @@ class Handler extends ExceptionHandler
      * @param Exception $exception
      * @throws Exception
      */
-    public  function  logInMysql(Exception $exception){
+    public function logInMysql(Exception $exception) {
         event(new ErrorException($exception));
     }
 }

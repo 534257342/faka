@@ -7,55 +7,52 @@ use App\Models\Common\CommonExcel;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class ImportExcelListener
-{
+class ImportExcelListener {
     /**
      * Create the event listener.
      *
      * @return void
      */
-    public function __construct()
-    {
+    public function __construct() {
         //
     }
 
     /**
      * Handle the event.
      *
-     * @param  object  $event
+     * @param object $event
      * @return void
      */
-    public function handle(ImportExcel $event)
-    {
+    public function handle(ImportExcel $event) {
         $Excel = new CommonExcel();
 
         $name = $event->name;
-        $name = explode('.',$name);
+        $name = explode('.', $name);
 
         $name = $name[0];
 
         $site = $event->site;
 
-        $data ='';
+        $data = '';
 
-        switch ($name){
+        switch ($name) {
 
             case 'area':
-                $data =$Excel->importArea($event->url,$site);
+                $data = $Excel->importArea($event->url, $site);
                 break;
             case 'areas':
-                $data =$Excel->importArea20($event->url,$site);
+                $data = $Excel->importArea20($event->url, $site);
                 break;
             case 'stations':
-                $data =$Excel->importSpot20($event->url,$site);
+                $data = $Excel->importSpot20($event->url, $site);
                 break;
             case 'user':
                 break;
             case 'driver':
-                $data = $Excel->importDriver($event->url,$site);
+                $data = $Excel->importDriver($event->url, $site);
                 break;
             case 'order':
-                $data = $Excel->importOrder($event->url,$site);
+                $data = $Excel->importOrder($event->url, $site);
                 break;
             case 'orders':
                 $data = $Excel->importUpdateOrder($event->url);

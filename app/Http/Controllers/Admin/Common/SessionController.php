@@ -14,7 +14,6 @@ use Larfree\Controllers\AdminApisController as Controller;
 
 use Illuminate\Http\Request;
 
-class SessionController extends Controller
-{
+class SessionController extends Controller {
 
 }

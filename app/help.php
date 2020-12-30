@@ -1,34 +1,5 @@
 <?php
-define('HTTP_PICK_ADDRESS_ERROR', 413);
-define('HTTP_REC_ADDRESS_ERROR', 414);
-define('HTTP_MONEY_NOT_ENOUGH', 450);
-define('HTTP_SITE_ERROR', 456);
-define('HTTP_SITE_NOT_ERROR', 451);
-define('HTTP_ADDRESS_NOT_AREA_ERROR', 453);//地址不在区域内
-define('HTTP__NOT_PRODUCT_ERROR', 455);//无产品
-define('HTTP_ERROR_UN_KNOW_ERROR', 499);
-define('HTTP_RELATED_CODE_PRESENCE', 457);//第三方运单号存在
-define('HTTP_WEIGHT_LIMIT_ERROR', 459);//重量超上限
-define('HTTP_INSURANCE_LIMIT_ERROR', 461);//重量超上限
-define('HTTP_ORDER_TIME_ERROR', 463);//时间错误
-define('HTTP_PRODUCT_CHANNEL_ERROR', 465);//渠道下无产品
-define('HTTP_PRODUCT_DAY_AMOUNT_ERROR', 459);//产品今日达到限额
-define('HTTP_PRODUCT_TYPE_ERROR', 467);//下单限制产品次日达
 
-/**
- * Created by PhpStorm.
- * User: xiao
- * Date: 2018/10/12
- * Time: 下午5:37
- */
-function getCurrentSite() {
-    $site = \App\Models\System\SystemSite::select('id', 'name', 'code')->find(getCurrentSiteId());
-    if ($site) {
-        return $site->toArray();
-    } else {
-        apiError('城市未选择', [], HTTP_SITE_ERROR);
-    }
-}
 
 function getCurrentSiteId() {
     $city = Request()->header('city') ?? 1;
@@ -37,22 +8,6 @@ function getCurrentSiteId() {
 
 function setCurrentSiteId($id) {
     Request()->headers->set('city', $id);
-}
-
-if (!function_exists('array_unset')) {
-    /**
-     * 删除数组中某几列的值
-     * @param array $array 数组
-     * @param string|array $keys 列键，多个可用逗号隔开
-     * @return array
-     */
-    function array_unset(&$array, $keys) {
-        if (is_string($keys))
-            $keys = explode(',', $keys);
-        $keys = array_flip($keys);
-        $array = array_diff_key($array, $keys);
-        return $array;
-    }
 }
 
 function getCurrentCity() {
@@ -217,6 +172,7 @@ if (!function_exists('LogData')) {
         }
     }
 }
+
 /**
  * 把返回的数据集转换成Tree
  * @access public
@@ -290,5 +246,21 @@ if (!function_exists('get_client_ip')) {
         $long = sprintf("%u", ip2long($ip));
         $ip = $long ? array($ip, $long) : array('0.0.0.0', 0);
         return $ip[$type];
+    }
+}
+
+if (!function_exists('array_unset')) {
+    /**
+     * 删除数组中某几列的值
+     * @param array $array 数组
+     * @param string|array $keys 列键，多个可用逗号隔开
+     * @return array
+     */
+    function array_unset(&$array, $keys) {
+        if (is_string($keys))
+            $keys = explode(',', $keys);
+        $keys = array_flip($keys);
+        $array = array_diff_key($array, $keys);
+        return $array;
     }
 }

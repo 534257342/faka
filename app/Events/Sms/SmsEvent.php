@@ -10,8 +10,7 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class SmsEvent
-{
+class SmsEvent {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     /**
@@ -19,8 +18,7 @@ class SmsEvent
      *
      * @return void
      */
-    public function __construct($phone,$content,$type='smsCode')
-    {
+    public function __construct($phone, $content, $type = 'smsCode') {
         $this->phone = $phone;
 
         $this->content = $content;
@@ -33,8 +31,7 @@ class SmsEvent
      *
      * @return \Illuminate\Broadcasting\Channel|array
      */
-    public function broadcastOn()
-    {
+    public function broadcastOn() {
         return new PrivateChannel('channel-name');
     }
 }

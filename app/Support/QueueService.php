@@ -26,6 +26,14 @@ class QueueService {
         return Redis::zAdd($name . '_queue', $execTime, base64_encode(json_encode($data)));
     }
 
+    /**
+     * 读取消息队列
+     * @param $name
+     * @param int $time
+     * @param int $limit
+     * @return mixed
+     * @author xiaopeng<xiaopeng@snqu.com>
+     */
     public function read($name, $time = 0, $limit = 1) {
         $time = $time ?: time();
         $data = Redis::zRangeByScore($name . '_queue', 0, $time, ['limit' => [0, $limit]]);
@@ -35,9 +43,14 @@ class QueueService {
         return $data;
     }
 
+    /**
+     * 根据名称删除消息队列
+     * @param $name
+     * @param $value
+     * @return mixed
+     * @author xiaopeng<xiaopeng@snqu.com>
+     */
     public function del($name, $value) {
-        v\App::log($name, 'test.log');
-        v\App::log($value, 'test.log');
         return Redis::zRem($name . '_queue', $value);
     }
 }

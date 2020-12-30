@@ -14,55 +14,54 @@ use Illuminate\Support\Facades\Config;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 
-class SessionController extends Controller
-{
+class SessionController extends Controller {
     use AuthenticatesUsers;
 
-    protected function guard()
-    {
+    protected function guard() {
         return Auth::guard("api");
     }
 
-    public function __construct()
-    {
-     //   $this->middleware('guest:api', ['except' => 'logout']);
+    public function __construct() {
+        //   $this->middleware('guest:api', ['except' => 'logout']);
     }
+
     public $in = [
-        'login'=>[
-            'phone'=>['name'=>'手机号','rule'=>'required|max:11|min:11|phone'],
-            'code'=>['name'=>'手机验证码'],
-            'password'=>['name'=>'登录密码'],
-            'openid'=>['rule'=>'required|unique'],
-            'unionid'=>['rule'=>'required|unique'],
+        'login'          => [
+            'phone'    => ['name' => '手机号', 'rule' => 'required|max:11|min:11|phone'],
+            'code'     => ['name' => '手机验证码'],
+            'password' => ['name' => '登录密码'],
+            'openid'   => ['rule' => 'required|unique'],
+            'unionid'  => ['rule' => 'required|unique'],
         ],
-        'register'=>[
-            'phone'=>['name'=>'手机号','rule'=>'phone|max:11|min:11'],
-            'email'=>['name'=>'邮箱','rule'=>'email'],
-            'code'=>['name'=>'手机验证码','rule'=>'required'],
-            'password'=>['name'=>'登录密码','rule'=>'required|min:6'],
-            'name'=>['name'=>'姓名','rule'=>'required'],
-            'invite_code'=>['name'=>'邀请码','rule'=>'required|unique'],
-            'openid'=>['rule'=>'required|unique'],
-            'unionid'=>['rule'=>'required|unique'],
+        'register'       => [
+            'phone'       => ['name' => '手机号', 'rule' => 'phone|max:11|min:11'],
+            'email'       => ['name' => '邮箱', 'rule' => 'email'],
+            'code'        => ['name' => '手机验证码', 'rule' => 'required'],
+            'password'    => ['name' => '登录密码', 'rule' => 'required|min:6'],
+            'name'        => ['name' => '姓名', 'rule' => 'required'],
+            'invite_code' => ['name' => '邀请码', 'rule' => 'required|unique'],
+            'openid'      => ['rule' => 'required|unique'],
+            'unionid'     => ['rule' => 'required|unique'],
         ],
-        'forgetPwd'=>[
-            'phone'=>['rule'=>'phone'],
-            'code'=>['rule'=>'required'],
+        'forgetPwd'      => [
+            'phone' => ['rule' => 'phone'],
+            'code'  => ['rule' => 'required'],
         ],
-        'updatePassword'=>[
-            'oldpwd'=>[
-                'name'=>'旧密码',
-                'rule'=>'required',
+        'updatePassword' => [
+            'oldpwd' => [
+                'name' => '旧密码',
+                'rule' => 'required',
             ],
-            'newpwd'=>[
-                'name'=>'新密码',
-                'rule'=>'required',
+            'newpwd' => [
+                'name' => '新密码',
+                'rule' => 'required',
             ],
         ],
-        'weChatLogin'=>[
-            'unionid'=>[]
+        'weChatLogin'    => [
+            'unionid' => []
         ]
     ];
+
     /**
      * @OA\Post(
      *   summary="用户登录",
@@ -75,26 +74,25 @@ class SessionController extends Controller
      *   ),
      * )
      */
-    public function login(Request $request)
-    {
+    public function login(Request $request) {
         $rules['phone'] = 'required | min:11 | max:11';
         $User = new CommonUser();
-        $user = $User->query()->where('phone',$request->phone)->first();
-        if(!$user){
+        $user = $User->query()->where('phone', $request->phone)->first();
+        if (!$user) {
             apiError('该手机未注册');
         }
-        if( $user->postking != 1){
+        if ($user->postking != 1) {
             apiError('该用户不是管理员');
         }
-        if($request->input('password')){
+        if ($request->input('password')) {
             $rules['password'] = 'required';
             $credentials = $this->validate($request, $rules);
-            $token = $User->login($user,$request,$credentials);
-        }else{
-            $token = $User->login($user,$request);
+            $token = $User->login($user, $request, $credentials);
+        } else {
+            $token = $User->login($user, $request);
         }
         $user->api_token = $token;
-        return Response()->success($user,'登录成功');
+        return Response()->success($user, '登录成功');
     }
 
     /**
@@ -112,9 +110,9 @@ class SessionController extends Controller
      *   ),
      * )
      */
-    public function logout(){
+    public function logout() {
         JWTAuth::invalidate(JWTAuth::getToken());
-        return Response()->success('','退出成功');
+        return Response()->success('', '退出成功');
     }
 
     /**
@@ -129,28 +127,27 @@ class SessionController extends Controller
      *   ),
      * )
      */
-    public function register(Request $request)
-    {
+    public function register(Request $request) {
         $rules['password'] = 'required|min:6|max:18';
         $rules['phone'] = 'min:11|max:11';
         $this->validate($request, $rules);
         $User = new CommonUser();
-        if($request->input('phone')){
-            $user = $User->where('phone',$request->input('phone'))->first();
-            if($user){
+        if ($request->input('phone')) {
+            $user = $User->where('phone', $request->input('phone'))->first();
+            if ($user) {
                 apiError('该手机号已注册');
             }
         }
-        if($request->input('email')){
-            $user = $User->where('email',$request->input('email'))->first();
-            if($user){
+        if ($request->input('email')) {
+            $user = $User->where('email', $request->input('email'))->first();
+            if ($user) {
                 apiError('该邮箱已注册');
             }
         }
 
         $users = $User->register($request->all());
 
-        return Response()->success($users,'注册成功');
+        return Response()->success($users, '注册成功');
     }
 
     /**
@@ -168,34 +165,34 @@ class SessionController extends Controller
      *   ),
      * )
      */
-    public function updatePassword(Request $request){
+    public function updatePassword(Request $request) {
         $rules['newpwd'] = 'required|min:6|max:18';
         $rules['oldpwd'] = 'required|min:6|max:18';
         $this->validate($request, $rules);
         $id = getLoginUserID();//当前用户登录id
         $User = new CommonUser();
-        $user = $User->where('id',$id)->first();
-        if(!$user){
+        $user = $User->where('id', $id)->first();
+        if (!$user) {
             apiError('该用户不存在');
         }
-        if(!$request->get('oldpwd')){
+        if (!$request->get('oldpwd')) {
             apiError('请输入旧密码');
         }
         //->updatePassword($user,$request->oldpwd,$request->newpwd);
-        $testPwd = password_verify($request->oldpwd,$user->password);//验证加密的密码
-        if($testPwd){
-            if(!$request->newpwd){
+        $testPwd = password_verify($request->oldpwd, $user->password);//验证加密的密码
+        if ($testPwd) {
+            if (!$request->newpwd) {
                 apiError('请输入新密码');
             }
             $user->password = $request->newpwd;
             $users = $user->save();
-            if($users){
+            if ($users) {
                 JWTAuth::invalidate(JWTAuth::getToken());//清除token
-                return Response()->success($users,'修改成功');
-            }else{
+                return Response()->success($users, '修改成功');
+            } else {
                 apiError('修改密码失败');
             }
-        }else{
+        } else {
             apiError('原密码错误,请重新输入');
         }
     }
@@ -212,13 +209,12 @@ class SessionController extends Controller
      *   ),
      * )
      */
-    public function forgetPwd(Request $request){
+    public function forgetPwd(Request $request) {
         $rules['password'] = 'required|min:6|max:18';
         $this->validate($request, $rules);
         $User = new CommonUser();
-        return $User->forgetPassword($request->phone,$request->code,$request->password);
+        return $User->forgetPassword($request->phone, $request->code, $request->password);
     }
-
 
 
 }

@@ -16,21 +16,20 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Intervention\Image\Facades\Image;
 
-class UploadController extends Controller
-{
-    public function images(Request $request,$type=''){
-        $rule =[
-            'file'=>'required',
+class UploadController extends Controller {
+    public function images(Request $request, $type = '') {
+        $rule = [
+            'file' => 'required',
         ];
         $message = [
-            'file.required'=>'请选择要上传的文件',
+            'file.required' => '请选择要上传的文件',
         ];
-        $validator = $this->validate($request,$rule,$message);
+        $validator = $this->validate($request, $rule, $message);
 
-        if(!$validator) {
+        if (!$validator) {
             apiError($validator);
         }
-        return CommonUpload::uploadImg($request->file('file'),$type);
+        return CommonUpload::uploadImg($request->file('file'), $type);
 
     }
 }

@@ -70,7 +70,7 @@ class AsyncInfo extends Command {
                     $fails = Redis::get($key);
                     if (empty($fails)) {
                         Redis::set($key, 1, $fails + 10);
-                    } else if ($fails < $this->tris) {
+                    } elseif ($fails < $this->tris) {
                         Redis::incr($key);
                     } else {
                         $this->queueDel($this->rKey, $task);
