@@ -1,0 +1,1 @@
+{"content":"{\n    \"data\": [],\n    \"status\": 1,\n    \"code\": 200,\n    \"msg\": \"\u5220\u9664\u6210\u529f\"\n}","time":1539916571,"action":"App\\Http\\Controllers\\Admin\\Express\\DingdongController@destroy","url":"api\/admin\/express\/dingdong\/{dingdong}"}

@@ -1,0 +1,1 @@
+{"content":"{\n    \"data\": [\n        1\n    ],\n    \"status\": 1,\n    \"code\": 200,\n    \"msg\": \"\"\n}","time":1538737145,"action":"App\\Http\\Controllers\\Admin\\Express\\OrderController@index","url":"api\/admin\/express\/order"}

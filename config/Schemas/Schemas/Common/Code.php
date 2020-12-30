@@ -1,0 +1,54 @@
+<?php
+return [
+    'detail'=>[
+        
+            'id'=>[
+                'name'=>'编号',
+                'tip'=>'',
+                'type'=>'text',
+                'sql_type'=>'int(10) unsigned',
+            ],
+            'phone'=>[
+                'name'=>'手机号',
+                'tip'=>'',
+                'type'=>'text',
+                'sql_type'=>'varchar(255)',
+            ],
+            'code'=>[
+                'name'=>'验证码',
+                'tip'=>'',
+                'type'=>'text',
+                'sql_type'=>'varchar(255)',
+            ],
+            'end_time'=>[
+                'name'=>'过期时间',
+                'tip'=>'',
+                'type'=>'timestamp',
+                'sql_type'=>'date',
+            ],
+            'type'=>[
+                'name'=>'类型',
+                'tip'=>'',
+                'type'=>'text',
+                'sql_type'=>'int(11)',
+            ],
+            'status'=>[
+                'name'=>'状态',
+                'tip'=>'',
+                'type'=>'checkbox',
+                'sql_type'=>'int(11)',
+            ],
+            'created_at'=>[
+                'name'=>'created_at',
+                'tip'=>'',
+                'type'=>'timestamp',
+                'sql_type'=>'timestamp',
+            ],
+            'updated_at'=>[
+                'name'=>'updated_at',
+                'tip'=>'',
+                'type'=>'timestamp',
+                'sql_type'=>'timestamp',
+            ],
+    ],
+];

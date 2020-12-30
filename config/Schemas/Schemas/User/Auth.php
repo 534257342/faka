@@ -1,0 +1,66 @@
+<?php
+return [
+    'detail'=>[
+        
+            'id'=>[
+                'name'=>'id',
+                'tip'=>'',
+                'type'=>'text',
+                'sql_type'=>'int(10) unsigned',
+            ],
+            'user_id'=>[
+                'name'=>'用户',
+                'tip'=>'',
+                'type'=>'number',
+                'sql_type'=>'bigint(20) unsigned',
+            ],
+            'type'=>[
+                'name'=>'认证类型',
+                'tip'=>'',
+                'type'=>'text',
+                'sql_type'=>'int(10) unsigned',
+            ],
+            'field1'=>[
+                'name'=>'认证内容',
+                'tip'=>'',
+                'type'=>'text',
+                'sql_type'=>'varchar(255)',
+            ],
+            'field2'=>[
+                'name'=>'认证内容',
+                'tip'=>'',
+                'type'=>'text',
+                'sql_type'=>'varchar(255)',
+            ],
+            'field3'=>[
+                'name'=>'认证内容',
+                'tip'=>'',
+                'type'=>'text',
+                'sql_type'=>'varchar(255)',
+            ],
+            'image1'=>[
+                'name'=>'操作来源',
+                'tip'=>'',
+                'type'=>'text',
+                'sql_type'=>'text',
+            ],
+            'image2'=>[
+                'name'=>'操作来源',
+                'tip'=>'',
+                'type'=>'text',
+                'sql_type'=>'text',
+            ],
+            'created_at'=>[
+                'name'=>'created_at',
+                'tip'=>'',
+                'type'=>'timestamp',
+                'sql_type'=>'timestamp',
+            ],
+            'updated_at'=>[
+                'name'=>'updated_at',
+                'tip'=>'',
+                'type'=>'timestamp',
+                'sql_type'=>'timestamp',
+            ],
+    ],
+];

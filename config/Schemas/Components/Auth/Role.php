@@ -1,0 +1,68 @@
+<?php
+/**
+ * 其他可以用组建默认的参数
+ * 也可以自己指定
+ */
+return [
+    'detail'=>[
+        'table'=>[
+            'config'=>[
+                'button'=>[
+                    'add'=>[
+                        'type'=>'primary',
+                        'html'=>'添加',
+                        'action'=>'add',
+                        'icon'=>'el-icon-plus',
+                        'url'=>'/auth/list/'
+                    ],
+                ],
+                'action'=>[
+                    'edit'=>[
+                        'type'=>'primary',
+                        'html'=>'编辑',
+                        'action'=>'/',
+                        'url'=>'/auth/list/{{id}}',
+                    ],
+                    'detail'=>null,
+                ]
+
+            ],
+            'search'=>[
+                'name',
+                'status',
+            ],
+            'fields'=>[
+                'id',
+            'name',
+            'status',
+            'created_at',
+            'updated_at',
+            //'tree_nav'
+             ],
+        ],
+        'add'=>[
+            'fields'=>[
+                'name',
+                'status',
+                'tree_nav'
+             ],
+        ],
+        'edit'=>[
+            'fields'=>[
+                'name',
+            'status',
+            'tree_nav'
+            ],
+        ],
+        'detail'=>[
+            'fields'=>[
+                'id',
+            'name',
+            'status',
+            'created_at',
+            'updated_at',
+            'tree_nav'
+            ],
+        ],
+    ],
+];

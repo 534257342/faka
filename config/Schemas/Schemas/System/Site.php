@@ -1,0 +1,44 @@
+<?php
+return [
+    'detail'=>[
+        
+            'id'=>[
+                'name'=>'编号',
+                'tip'=>'',
+                'type'=>'text',
+                'sql_type'=>'int(10) unsigned',
+            ],
+            'name'=>[
+                'name'=>'名称',
+                'tip'=>'',
+                'type'=>'text',
+                'sql_type'=>'varchar(255)',
+                'rule'=>['required'],
+            ],
+            'code'=>[
+                'name'=>'城市码',
+                'tip'=>'',
+                'type'=>'text',
+                'sql_type'=>'varchar(255)',
+                'rule'=>['required'],
+            ],
+            'status'=>[
+                'name'=>'开启',
+                'tip'=>'',
+                'type'=>'checkbox',
+                'sql_type'=>'int(10)',
+            ],
+            'created_at'=>[
+                'name'=>'created_at',
+                'tip'=>'',
+                'type'=>'timestamp',
+                'sql_type'=>'timestamp',
+            ],
+            'updated_at'=>[
+                'name'=>'updated_at',
+                'tip'=>'',
+                'type'=>'timestamp',
+                'sql_type'=>'timestamp',
+            ],
+    ],
+];
