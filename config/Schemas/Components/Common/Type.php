@@ -1,0 +1,43 @@
+<?php
+/**
+ * 其他可以用组建默认的参数
+ * 也可以自己指定
+ */
+return [
+    'detail'=>[
+        'table'=>[
+            'fields'=>[
+                'id',
+            'type',
+            'status',
+            'name',
+            'created_at',
+            'updated_at'
+             ],
+        ],
+        'add'=>[
+            'fields'=>[
+                'type',
+            'status',
+            'name'
+             ],
+        ],
+        'edit'=>[
+            'fields'=>[
+                'type',
+            'status',
+            'name'
+            ],
+        ],
+        'detail'=>[
+            'fields'=>[
+                'id',
+            'type',
+            'status',
+            'name',
+            'created_at',
+            'updated_at'
+            ],
+        ],
+    ],
+];

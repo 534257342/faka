@@ -75,3 +75,18 @@ Route::any('test', 'Api\Test\TestController@test');
 
 Route::resource('common/banner', 'Api\Common\BannerController');//自动添加-API
 Route::resource('admin/common/banner', 'Admin\Common\BannerController');//自动添加-ADMIN
+
+Route::resource('common/pays', 'Api\Common\PaysController');//自动添加-API
+Route::resource('admin/common/pays', 'Admin\Common\PaysController');//自动添加-ADMIN
+Route::resource('common/product', 'Api\Common\ProductController');//自动添加-API
+Route::resource('admin/common/product', 'Admin\Common\ProductController');//自动添加-ADMIN
+Route::resource('common/type', 'Api\Common\TypeController');//自动添加-API
+Route::resource('admin/common/type', 'Admin\Common\TypeController');//自动添加-ADMIN
+Route::resource('common/orders', 'Api\Common\OrdersController');//自动添加-API
+Route::resource('admin/common/orders', 'Admin\Common\OrdersController');//自动添加-ADMIN
+Route::resource('common/code', 'Api\Common\CodeController');//自动添加-API
+Route::resource('admin/common/code', 'Admin\Common\CodeController');//自动添加-ADMIN
+Route::resource('user/joins', 'Api\User\JoinsController');//自动添加-API
+Route::resource('admin/user/joins', 'Admin\User\JoinsController');//自动添加-ADMIN
+Route::resource('system/webset', 'Api\System\WebsetController');//自动添加-API
+Route::resource('admin/system/webset', 'Admin\System\WebsetController');//自动添加-ADMIN

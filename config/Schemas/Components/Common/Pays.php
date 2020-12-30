@@ -1,0 +1,63 @@
+<?php
+/**
+ * 其他可以用组建默认的参数
+ * 也可以自己指定
+ */
+return [
+    'detail'=>[
+        'table'=>[
+            'fields'=>[
+                'id',
+            'pay_name',
+            'pay_check',
+            'pay_method',
+            'merchant_id',
+            'merchant_key',
+            'merchant_pem',
+            'pay_handleroute',
+            'pay_status',
+            'created_at',
+            'updated_at'
+             ],
+        ],
+        'add'=>[
+            'fields'=>[
+                'pay_name',
+            'pay_check',
+            'pay_method',
+            'merchant_id',
+            'merchant_key',
+            'merchant_pem',
+            'pay_handleroute',
+            'pay_status'
+             ],
+        ],
+        'edit'=>[
+            'fields'=>[
+                'pay_name',
+            'pay_check',
+            'pay_method',
+            'merchant_id',
+            'merchant_key',
+            'merchant_pem',
+            'pay_handleroute',
+            'pay_status'
+            ],
+        ],
+        'detail'=>[
+            'fields'=>[
+                'id',
+            'pay_name',
+            'pay_check',
+            'pay_method',
+            'merchant_id',
+            'merchant_key',
+            'merchant_pem',
+            'pay_handleroute',
+            'pay_status',
+            'created_at',
+            'updated_at'
+            ],
+        ],
+    ],
+];

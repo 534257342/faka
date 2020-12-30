@@ -1,0 +1,42 @@
+<?php
+return [
+    'detail'=>[
+        
+            'id'=>[
+                'name'=>'id',
+                'tip'=>'',
+                'type'=>'text',
+                'sql_type'=>'int(11)',
+            ],
+            'type'=>[
+                'name'=>'type',
+                'tip'=>'',
+                'type'=>'text',
+                'sql_type'=>'varchar(255)',
+            ],
+            'status'=>[
+                'name'=>'status',
+                'tip'=>'',
+                'type'=>'text',
+                'sql_type'=>'int(1)',
+            ],
+            'name'=>[
+                'name'=>'name',
+                'tip'=>'',
+                'type'=>'text',
+                'sql_type'=>'varchar(255)',
+            ],
+            'created_at'=>[
+                'name'=>'created_at',
+                'tip'=>'',
+                'type'=>'timestamp',
+                'sql_type'=>'timestamp',
+            ],
+            'updated_at'=>[
+                'name'=>'updated_at',
+                'tip'=>'',
+                'type'=>'timestamp',
+                'sql_type'=>'timestamp',
+            ],
+    ],
+];
