@@ -9,7 +9,7 @@
         "fideloper/proxy": "^4.0",
         "laravel/framework": "5.7.*",
         "laravel/tinker": "^1.0",
-        "thexiaopeng/larfree": "dev-master",
+        "thexiaopeng/larfree": "^0.0.7",
         "rap2hpoutre/fast-excel": "^1.2",
         "tymon/jwt-auth": "dev-develop",
         "barryvdh/laravel-cors": "^0.11.3",

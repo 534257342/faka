@@ -214,46 +214,4 @@ class CommonUser extends ApiUser implements JWTSubject
     }
 
 
-    public function changePrice($data){
-
-        $user = CommonUser::query()->where('id', $data['userid'])->first();
-        if (@!$user) {
-            apiError('没有该用户');
-        }
-        switch ($data['type']) {
-            case 'recharge':
-                $user->cost= $user->cost+$data['price'];
-                break;
-            case 'reduce':
-                $user->cost= $user->cost-$data['price']>0? $user->cost-$data['price']:0;
-                break;
-            case 'buy':
-                if($user->cost-$data['price']<=0){
-                    apiError('用户金额不足');
-                }
-                $user->cost= $user->cost-$data['price']>0? $user->cost-$data['price']:0;
-                break;
-            default:
-                apiError('没有该方法');
-        }
-
-        DB::beginTransaction();
-        try{
-           if(! $user->save()){
-               throw new OrderCompleteFailedException('金额修改失败');
-           };
-            $moneyRecord=new MoneyRecord();
-            $moneyRecord->addRecord($data);
-            DB::commit();
-        } catch (\Exception $e){
-            DB::rollback();//事务回滚
-            return apiError($e->getMessage());
-        }
-        return $user;
-    }
-
-
-
-
-
 }

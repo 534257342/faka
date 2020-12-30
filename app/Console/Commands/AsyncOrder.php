@@ -6,8 +6,8 @@ namespace App\Console\Commands;
 use App\Console\Commands\Crontab\CrontabHelper;
 use App\Models\Common\CommonOrder;
 use App\Support\Traits\MyRedis;
-use Illuminate\Support\Facades\Redis;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Redis;
 
 /**
  * 同步订单之后的逻辑
@@ -17,12 +17,10 @@ use Illuminate\Console\Command;
 class AsyncOrder extends Command {
     use  MyRedis;
     use CrontabHelper;
-    public $interval = 0.5;
     protected $signature = 'async:order';
     protected $description = 'Command description';
     protected $rKey = 'order';
     protected $tris = 3;
-
 
     /**
      * Create a new command instance.

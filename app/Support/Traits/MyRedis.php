@@ -4,7 +4,6 @@ namespace App\Support\Traits;
 
 
 use App\Models\Express\ExpressOrderCode;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Redis;
 
 trait MyRedis {

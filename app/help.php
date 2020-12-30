@@ -39,6 +39,22 @@ function setCurrentSiteId($id) {
     Request()->headers->set('city', $id);
 }
 
+if (!function_exists('array_unset')) {
+    /**
+     * 删除数组中某几列的值
+     * @param array $array 数组
+     * @param string|array $keys 列键，多个可用逗号隔开
+     * @return array
+     */
+    function array_unset(&$array, $keys) {
+        if (is_string($keys))
+            $keys = explode(',', $keys);
+        $keys = array_flip($keys);
+        $array = array_diff_key($array, $keys);
+        return $array;
+    }
+}
+
 function getCurrentCity() {
     $ip = \Request()->getClientIp();
     $content = file_get_contents("http://api.map.baidu.com/location/ip?ak=2TGbi6zzFm5rjYKqPPomh9GBwcgLW5sS&ip={$ip}&coor=bd09ll");

@@ -1,7 +1,7 @@
 <?php
 return [
     'detail'=>[
-        
+
             'id'=>[
                 'name'=>'编号',
                 'tip'=>'',
@@ -18,53 +18,6 @@ return [
                     2=>'vip2',
                     3=>'vip3',
                 ]
-            ],
-            'channel_id'=>[
-                'name'=>'渠道',
-                'tip'=>'',
-                'type'=>'select',
-                'sql_type'=>'bigint(20) unsigned',
-                'link'=>[
-                    'model'=>[
-                        'belongsTo',
-                        'App\\Models\\Express\\ExpressChannel',
-                        'channel_id',
-                        'id',
-                    ],
-                    'select'=>['id','name'],
-                    'field'=>['id','name'],
-                ]
-            ],
-            'belong_id'=>[
-                'name'=>'从属企业',
-                'tip'=>'',
-                'type'=>'select',
-                'sql_type'=>'bigint(20) unsigned',
-                'link'=>[
-                    'model'=>[
-                        'belongsTo',
-                        'App\\Models\\User\\UserCompany',
-                        'belong_id',
-                        'id',
-                    ],
-                    'select'=>['id','name'],
-                    'field'=>['id','name'],
-                ]
-            ],
-            'tag'=>[
-                'name'=>'标签',
-                'tip'=>'',
-                'type'=>'select',
-                'sql_type'=>'bigint(20) unsigned',
-                'link' => [
-                    'model' => [
-                        'belongsToMany',
-                        'App\\Models\\Common\\CommonTag',
-                        'common_user_tag'
-                    ],
-                    'select' => ['id','name','type'],
-                    'field' => ['id','name','type'],
-                ],
             ],
             'name'=>[
                 'name'=>'姓名',
@@ -103,22 +56,6 @@ return [
                 'tip'=>'',
                 'type'=>'text',
                 'sql_type'=>'varchar(64)',
-            ],
-            'first_site'=>[
-                'name'=>'首次注册城市',
-                'tip'=>'',
-                'type'=>'select',
-                'sql_type'=>'varchar(255)',
-                'link'=>[
-                    'model'=>[
-                        'belongsTo',
-                        'App\\Models\\System\\SystemSite',
-                        'first_site',
-                        'id',
-                    ],
-                    'select'=>['id','name'],
-                    'field'=>['id','name','code'],
-                ]
             ],
             'ip'=>[
                 'name'=>'ip地址',
@@ -204,39 +141,6 @@ return [
                 'type'=>'select',
                 'sql_type'=>'varchar(255)',
                 'option'=>[1=>'邀请注册',2=>'公众号注册'],
-            ],
-            'invite_id'=>[
-                'name'=>'邀请者',
-                'tip'=>'',
-                'type'=>'select',
-                'sql_type'=>'varchar(255)',
-                'link'=>[
-                    'model'=>[
-                        'belongsTo',
-                        'App\\Models\\Common\\CommonUser',
-                        'invite_id',
-                        'id',
-                    ],
-                    'as'=>'invite',
-                    'select'=>['id','name','invite_code'],
-                    'field'=>['id','name','invite_code'],
-                ]
-            ],
-            'driver' => [
-                'name' => '司机用户',
-                'tip' => '',
-                'type' => 'select',
-                'link' => [
-                    'model'=> [
-                        'hasOne',
-                        'App\\Models\\User\\UserDriver',
-                        'user_id',
-                        'id'
-                    ],
-                    'as'=>'driver',
-//                    'select' => ['id','user_id','name','phone','fleet_id'],
-//                    'field' => ['id','user_id','name','phone','tmp_fleet_time','work_fleet_id','belong_fleet_id'],
-                ],
             ],
             'admin' => [
                 'name' => '管理用户',
