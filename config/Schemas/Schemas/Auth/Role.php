@@ -15,7 +15,7 @@ return [
             'sql_type' => 'varchar(255)',
         ],
 
-        'actions' => [
+/*        'actions' => [
             'name' => '角色',
             'tip' => '',
             'type' => 'select',
@@ -28,9 +28,9 @@ return [
                 'select' => ['id', 'name'],
                 'field' => ['id', 'name','resource','action','param'],
             ],
-        ],
+        ],*/
 
-        'scopes' => [
+/*        'scopes' => [
             'name' => '作用域',
             'tip' => '',
             'type' => 'select',
@@ -44,7 +44,7 @@ return [
                 'select' => ['id', 'name','model','scope','rule'],
                 'field' => ['id', 'name','model','scope','rule'],
             ],
-        ],
+        ],*/
 
         'status' => [
             'name' => '有效',

@@ -168,8 +168,6 @@ return [
          * Package Service Providers...
          */
 
-        App\Providers\QueueServiceProvider::class,
-
         /*
          * Application Service Providers...
          */
@@ -180,6 +178,11 @@ return [
         App\Providers\RouteServiceProvider::class,
         App\Providers\ValidateServiceProvider::class,
 
+        /**
+         *自己构建的服务
+         */
+        App\Providers\QueueServiceProvider::class,
+        App\Providers\ElasticServiceProvider::class,
     ],
 
     /*
@@ -233,7 +236,8 @@ return [
         'JWTAuth'      => Tymon\JWTAuth\Facades\JWTAuth::class,
         'JWTFactory'   => Tymon\JWTAuth\Facades\JWTFactory::class,
         'EasyWeChat'   => Overtrue\LaravelWeChat\Facade::class,
-        'Queue'        => app\Support\Facades\Queue::class,
+        'MyQueue'      => app\Support\Facades\MyQueue::class,
+        'Elastic'      => app\Support\Facades\Elastic::class,
     ],
 
 ];

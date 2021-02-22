@@ -139,7 +139,6 @@ class AuthRole extends Api {
             return true;
         }
 
-
     }
 
 

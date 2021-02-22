@@ -16,6 +16,8 @@ Route::get('/', function () {
 });
 
 
+Route::get('robot', 'WeChatController@getRobot');//查询微信自定义菜单
+
 Route::get('excel',  function () {
     return view('test.excel1');
 });

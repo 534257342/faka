@@ -6,15 +6,16 @@
     "type": "project",
     "require": {
         "php": "^7.1.3",
+        "barryvdh/laravel-cors": "^0.11.3",
         "fideloper/proxy": "^4.0",
         "laravel/framework": "5.7.*",
         "laravel/tinker": "^1.0",
-        "thexiaopeng/larfree": "^0.0.7",
-        "rap2hpoutre/fast-excel": "^1.2",
-        "tymon/jwt-auth": "dev-develop",
-        "barryvdh/laravel-cors": "^0.11.3",
-        "yansongda/pay": "^2.5",
         "qcloudsms/qcloudsms_php": "0.1.*",
+        "rap2hpoutre/fast-excel": "^1.2",
+        "thexiaopeng/larfree": "^0.0.8",
+        "tymon/jwt-auth": "dev-develop",
+        "wechaty/php-wechaty": "dev-dev",
+        "yansongda/pay": "^2.5",
         "zhjun/address": "^1.3.12"
     },
     "require-dev": {

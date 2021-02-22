@@ -1,10 +1,9 @@
 <?php
 
 namespace App\Support\Facades;
-use App\Support\QueueService;
 use Illuminate\Support\Facades\Facade;
 
-class MyQueue extends Facade
+class Elastic extends Facade
 
 {
     /**
@@ -15,6 +14,6 @@ class MyQueue extends Facade
 
     protected static function getFacadeAccessor()
     {
-        return 'MyQueue';
+        return 'Elastic';
     }
 }

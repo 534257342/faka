@@ -81,9 +81,9 @@ class SessionController extends Controller {
         if (!$user) {
             apiError('该手机未注册');
         }
-        if ($user->postking != 1) {
+/*        if ($user->postking != 1) {
             apiError('该用户不是管理员');
-        }
+        }*/
         if ($request->input('password')) {
             $rules['password'] = 'required';
             $credentials = $this->validate($request, $rules);

@@ -4,39 +4,34 @@
  * 也可以自己指定
  */
 return [
-    'detail'=>[
-        'table'=>[
-            'fields'=>[
-                'id',
-            'type',
-            'status',
-            'name',
-            'created_at',
-            'updated_at'
-             ],
-        ],
-        'add'=>[
-            'fields'=>[
-                'type',
-            'status',
-            'name'
-             ],
-        ],
-        'edit'=>[
-            'fields'=>[
-                'type',
-            'status',
-            'name'
+    'detail' => [
+        'table'  => [
+            'fields' => [
+                'name',
+                'status',
+                'created_at',
+                'updated_at'
             ],
         ],
-        'detail'=>[
-            'fields'=>[
+        'add'    => [
+            'fields' => [
+                'status',
+                'name'
+            ],
+        ],
+        'edit'   => [
+            'fields' => [
+                'status',
+                'name'
+            ],
+        ],
+        'detail' => [
+            'fields' => [
                 'id',
-            'type',
-            'status',
-            'name',
-            'created_at',
-            'updated_at'
+                'status',
+                'name',
+                'created_at',
+                'updated_at'
             ],
         ],
     ],

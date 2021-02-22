@@ -47,6 +47,72 @@ function getCity() {
     return app('address_parse')->getGeoIpCity($ip);
 }
 
+
+function array_is_column($array) {
+    return isset($array[0]) && is_array($array[0]);
+}
+
+/**
+ * 删除数据元素并返回删除的值
+ * @param array $array
+ * @param string | array $key
+ * @return mixed 数组返回数组，字符串返回字符串
+ */
+function array_delete(&$array, $key) {
+    if (is_array($key)) {
+        $value = [];
+        foreach ($key as $k) {
+            $value[$k] = array_delete($array, $k);
+        }
+    } else {
+        $value = null;
+        if ($pos = strpos($key, '.')) {
+            $pkey = substr($key, 0, $pos);
+            $key = substr($key, $pos + 1);
+            if (isset($array[$pkey]))
+                return array_delete($array[$pkey], $key);
+        } elseif (isset($array[$key])) {
+            $value = $array[$key];
+            unset($array[$key]);
+        }
+    }
+    return $value;
+}
+
+/**
+ * 数组KEY重命名
+ * @param array $array
+ * @param array $keys
+ * @return array
+ */
+function array_rekey(&$array, $keys) {
+    foreach ($keys as $key => $keyNew) {
+        if (isset($array[$key])) {
+            $array[$keyNew] = $array[$key];
+            unset($array[$key]);
+        }
+    }
+    return $array;
+}
+
+/**
+ * 二位数组重命名列
+ * @param array $array
+ * @param array $keys
+ * @return array
+ */
+function array_column_rekey(&$array, $keys) {
+    if (!array_is_column($array)) {
+        array_rekey($array, $keys);
+    } else {
+        foreach ($array as &$item) {
+            array_rekey($item, $keys);
+        }
+    }
+    return $array;
+}
+
+
 function getCityCode($site) {
     switch ($site) {
         case 1:

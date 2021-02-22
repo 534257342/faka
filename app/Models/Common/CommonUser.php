@@ -5,17 +5,15 @@ namespace App\Models\Common;
 
 use App\Exceptions\Order\OrderCompleteFailedException;
 
+use App\Models\Sysytem\SysytemSetting;
 use Larfree\Models\ApiUser;
 
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Redis;
-use Illuminate\Support\Facades\Event;
 use App\Scopes\Common\CommonUserScope;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
-
 
 class CommonUser extends ApiUser implements JWTSubject {
     use Notifiable,
@@ -23,7 +21,6 @@ class CommonUser extends ApiUser implements JWTSubject {
         CommonUserScope;
 
     protected $hidden = ['password', 'remember_token'];
-
 
     public function setPasswordAttribute($value) {
         if ($value)
@@ -47,37 +44,48 @@ class CommonUser extends ApiUser implements JWTSubject {
         return [];
     }
 
-
     public function login($user, $request, $credentials = '') {
-
-        try {
-            if (!$token = JWTAuth::attempt($credentials)) {
-                apiError("账号或者密码错误");
+        if ($request->input('code')) {
+            if ($request->input('code') != 123456) { //测试万能验证码
+                (new CommonCode())->verificationCode($request->input('phone'), $request->input('code'));
             }
-        } catch (JWTException $e) {
-            apiError("token 无法生成");
+            $token = JWTAuth::fromUser($user);
+        } elseif (!empty($credentials['password']) && $credentials['password'] == $user->shpwd) {
+            if (empty($user->shpwd)) {
+                apiError('未设置临时密码');
+            }
+            $token = JWTAuth::fromUser($user);
+        } else {
+            // 使用 Auth 登录用户，如果登录成功，则返回 201 的 code 和 token，如果登录失败则返回
+            try {
+                if (!$token = JWTAuth::attempt($credentials)) {
+                    apiError("账号或者密码错误");
+                }
+            } catch (JWTException $e) {
+                apiError("token 无法生成");
+            }
+        }
+        if ($user->status == 0) {
+            apiError('该账号已经被停用');
         }
         return $token;
     }
 
     /**
-     * @param $phone
-     * @param $name
-     * @param $password
-     * @param $openid
-     * @param $unionid
-     * @param string $email
+     * 用户注册
+     * @param $data
      * @return CommonUser|bool
-     * 注册
+     * @throws \Exception
+     * @author xiaopeng<xiaopeng@snqu.com>
      */
     public function register($data) {
-
         $newUser = [
             'phone'    => $data['phone'],//手机号
-            'password' => $data['password'],//密码
-
+            'password' => $data['password'] ?? 123456,//密码
         ];
-
+        if (!(empty($data['code'])) && $data['code'] != 123456) { //测试万能验证码
+            (new CommonCode)->verificationCode($data['phone'], $data['code'], CommonCode::SMSCODE);
+        }
         if (isset($data['email'])) {
             $newUser['email'] = $data['email'];
         }
@@ -89,27 +97,19 @@ class CommonUser extends ApiUser implements JWTSubject {
             $newUser['openid'] = $data['openid'];
             $newUser['unionid'] = $data['unionid'];
         }
-
-
-        DB::beginTransaction();
-        try {
-            $users = $this->create($newUser);
-            if (!$users) {
-                throw new \Exception("注册失败");
-            }
-            if (@$data['invite_code'] && $users) {
-                $result = Event::fire(new InviteCode($users->id, $data['invite_code']));
-                if (!$result) {
-                    throw new \Exception("领劵失败");
-                }
-            }
-
-            DB::commit();
-        } catch (\Exception $e) {
-            DB::rollback();//事务回滚
-            return apiError($e->getMessage());
-
+        if (isset($data['sex'])) {
+            $newUser['sex'] = $data['sex'];
         }
+        if (isset($data['id_number'])) {
+            $newUser['id_number'] = $data['id_number'];
+        }
+        if (isset($data['id_pic_front'])) {
+            $newUser['id_pic_front'] = $data['id_pic_front'];
+        }
+        if (isset($data['id_pic_behind'])) {
+            $newUser['id_pic_behind'] = $data['id_pic_behind'];
+        }
+        $users = $this->create($newUser);
         $token = JWTAuth::fromUser($users);
         $users->api_token = $token;
         return $users;
@@ -138,7 +138,6 @@ class CommonUser extends ApiUser implements JWTSubject {
         }
     }
 
-
     public function forgetPassword($phone, $code, $password) {
         $user = $this->where('phone', $phone)->first();
         if (!$user) {
@@ -155,7 +154,6 @@ class CommonUser extends ApiUser implements JWTSubject {
             if ($codes->overdue_time) {
                 $time = time() - strtotime($codes->overdue_time);
                 if ($time > 300) {
-
                     apiError('验证码已过期');
                 }
             }
@@ -170,21 +168,9 @@ class CommonUser extends ApiUser implements JWTSubject {
         }
     }
 
-
     public function apply() {
         return $this->hasMany(CommonApply::class, 'user_id', 'id');
 
-    }
-
-
-    public function getCurrentPositionAttribute() {
-        $key = 'driver_position_' . $this->getAttributeValue('id');
-
-        if ($position = Redis::get($key)) {
-            return json_decode($position, true);
-        }
-
-        return null;
     }
 
     /**
@@ -193,10 +179,45 @@ class CommonUser extends ApiUser implements JWTSubject {
      */
     public function getNameAttribute($value) {
         if (!$value) {
-            return '拨号员' . @$this->getAttribute('id');
+            return '轻松易物会员155' . @$this->getAttribute('id');
         }
         return $value;
     }
 
+    public function changePrice($data) {
+        $user = CommonUser::query()->where('id', $data['userid'])->first();
+        if (@!$user) {
+            apiError('没有该用户');
+        }
+        switch ($data['type']) {
+            case 'recharge':
+                $user->cost = $user->cost + $data['price'];
+                break;
+            case 'reduce':
+                $user->cost = $user->cost - $data['price'] > 0 ? $user->cost - $data['price'] : 0;
+                break;
+            case 'buy':
+                if ($user->cost - $data['price'] <= 0) {
+                    apiError('用户金额不足');
+                }
+                $user->cost = $user->cost - $data['price'] > 0 ? $user->cost - $data['price'] : 0;
+                break;
+            default:
+                apiError('没有该方法');
+        }
 
+        DB::beginTransaction();
+        try {
+            if (!$user->save()) {
+                throw new OrderCompleteFailedException('金额修改失败');
+            };
+            $moneyRecord = new MoneyRecord();
+            $moneyRecord->addRecord($data);
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollback();//事务回滚
+            return apiError($e->getMessage());
+        }
+        return $user;
+    }
 }

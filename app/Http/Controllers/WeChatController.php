@@ -215,4 +215,15 @@ class WeChatController extends Controller {
         ];
         return Response()->success($data, '登录成功');
     }
+
+    public function getRobot(Request $request) {
+        $wechaty = \IO\Github\Wechaty\Wechaty::getInstance($token, $endPoint);
+        $wechaty->onScan(function($qrcode, $status, $data) {
+            $qr = \IO\Github\Wechaty\Util\QrcodeUtils::getQr($qrcode);
+            echo "$qr\n\nOnline Image: https://wechaty.github.io/qrcode/$qrcode\n";
+        })->onLogin(function(\IO\Github\Wechaty\User\ContactSelf $user) {
+        })->onMessage(function(\IO\Github\Wechaty\User\Message $message) {
+            $message->say("hello from PHP7.4");
+        })->start();
+    }
 }

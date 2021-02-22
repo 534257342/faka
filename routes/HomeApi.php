@@ -25,6 +25,7 @@ Route::prefix('express')->group(function()use($path){
 Route::prefix('test')->group(function()use($path){
     Route::resource('test_detail', $path.'\Test\TestDetailController');//自动添加-ADMIN
     Route::resource('test', $path.'\Test\TestController');//自动添加-ADMIN
+    Route::any('test2', $path.'\Test\TestController@test2');//自动添加-ADMIN
 });
 
 

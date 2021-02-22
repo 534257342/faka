@@ -1,7 +1,7 @@
 <?php
 return [
     'detail'=>[
-        
+
             'id'=>[
                 'name'=>'id',
                 'tip'=>'',
@@ -9,43 +9,43 @@ return [
                 'sql_type'=>'int(11)',
             ],
             'name'=>[
-                'name'=>'name',
+                'name'=>'标题',
                 'tip'=>'',
                 'type'=>'text',
                 'sql_type'=>'varchar(255)',
             ],
             'type'=>[
-                'name'=>'type',
+                'name'=>'类型',
                 'tip'=>'',
                 'type'=>'text',
                 'sql_type'=>'varchar(255)',
             ],
             'url_link'=>[
-                'name'=>'url_link',
+                'name'=>'跳转链接',
                 'tip'=>'',
                 'type'=>'text',
                 'sql_type'=>'varchar(255)',
             ],
             'banner_url'=>[
-                'name'=>'banner_url',
+                'name'=>'banner图',
                 'tip'=>'',
                 'type'=>'text',
                 'sql_type'=>'varchar(255)',
             ],
             'status'=>[
-                'name'=>'status',
+                'name'=>'状态',
                 'tip'=>'',
                 'type'=>'text',
                 'sql_type'=>'int(3)',
             ],
             'created_at'=>[
-                'name'=>'created_at',
+                'name'=>'创建时间',
                 'tip'=>'',
                 'type'=>'timestamp',
                 'sql_type'=>'timestamp',
             ],
             'updated_at'=>[
-                'name'=>'updated_at',
+                'name'=>'修改时间',
                 'tip'=>'',
                 'type'=>'timestamp',
                 'sql_type'=>'timestamp',

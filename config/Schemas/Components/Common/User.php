@@ -3,158 +3,70 @@
  * 其他可以用组建默认的参数
  * 也可以自己指定
  */
-return  [
-    'detail'=>[
-        'table'=>[
-            'search'=>[
-                'id',
+return [
+    'detail' => [
+        'table'  => [
+            'search' => [
                 'name',
                 'phone',
-                'invite_code',
-                'invite_id',
                 'created_at',
             ],
-            'config'=>[
-                'action'=>[
-                    'del'=>null,
+            'config' => [
+                'action' => [
+                    'del' => null,
                 ]
             ],
-            'fields'=>[
-                //'id',
-                //'belong_id',
-                'vip',
+            'fields' => [
                 'name',
-                //'nickname',
-                //'email',
-                //'api_token',
-                //'first_site',
-                //'ip',
                 'phone',
-                //'email',
-                //'password',
-                'is_old',
-                'balance',
-                'credit_balance',
-                'monthly',
-                'is_old',
-//              'invite_code',
-//              'user_source',
-//              'invite_id',
-                //'openid',
-                //'unionid',
-                //'remember_token',
+                'status',
+                'banner_id',
+                'money',
+         /*       'company_pic',*/
+/*                'sex',*/
+                'status',
+                'roles',
                 'created_at',
                 //'updated_at'
             ],
         ],
-        'add'=>[
-            'fields'=>[
-                'user'=>[
-                    'name'=>'用户',
-                    'group_children'=>[
-                        'name',
-                        'nickname',
-                        'phone',
-                        'email',
-                        'password',
-                    ]
-                ],
-                'other'=>[
-                    'name'=>'附加信息',
-                    'group_children'=>[
-                        'vip',
-                        'belong_id',
-                        'first_site',
-                        'invite_code',
-                        'id_card',
-                        'home_address',
-                        'user_source',
-                        'invite_id',
-                        'tag',
-
-                    ]
-                ],
-                'money'=>[
-                    'name'=>'财务',
-                    'group_children'=>[
-                        'credit',
-                        'monthly',
-                    ]
-                ],
-                //'api_token',
-                //'ip',
-                //'openid',
-                //'unionid',
-                //'remember_token'
-            ],
-        ],
-        'edit'=>[
-            'fields'=>[
-                'user'=>[
-                    'name'=>'用户',
-                    'group_children'=>[
-                        'name',
-                        'nickname',
-                        'phone',
-                        'email',
-                        'password',
-                    ]
-                ],
-                'other'=>[
-                    'name'=>'附加信息',
-                    'group_children'=>[
-                        'vip',
-                        'is_old',
-//                        'channel_id',
-//                        'belong_id',
-                        'first_site',
-//                        'invite_code',
-                        'id_card',
-                        'home_address',
-                        'user_source',
-                        'channel_id',
-                        'invite_id',
-                        'is_old',
-                        'tag',
-
-                    ]
-                ],
-                'money'=>[
-                    'name'=>'财务',
-                    'group_children'=>[
-                        'credit',
-                        'monthly',
-                    ]
-                ]
-                //'api_token',
-                //'ip',
-                //'openid',
-                //'unionid',
-                //'remember_token'
-            ],
-        ],
-        'detail'=>[
-            'fields'=>[
-                'id',
-                'belong_id',
+        'add'    => [
+            'fields' => [
                 'name',
-                'nickname',
-                'api_token',
-                'first_site',
-                'ip',
+                'phone',
+                'banner_id',
+            //    'company_pic',
+                'password',
+                'status',
+                'roles',
+                'sex',
+                'company_name',
+            ],
+        ],
+        'edit'   => [
+            'fields' => [
+                'name',
+                'sex',
+                'banner_id',
+        /*        'company_pic',*/
+                'roles'
+/*                'company_pic',
                 'phone',
                 'email',
                 'password',
-                'invite_code',
-                'user_source',
-                'invite_id',
-                'credit',
-                'monthly',
-                'openid',
-                'unionid',
-                'remember_token',
+                'company_name',
+                'sex',*/
+ /*               'roles',*/
+            ],
+        ],
+        'show' => [
+            'fields' => [
+                'name',
+                'phone',
+                'status',
                 'created_at',
-                'updated_at'
+                'sex',
+         /*       'roles',*/
             ],
         ],
     ],

@@ -2,10 +2,10 @@
 
 namespace App\Providers;
 
-use App\Support\QueueService;
+use App\Support\ElasticService;
 use Illuminate\Support\ServiceProvider;
 
-class QueueServiceProvider extends ServiceProvider
+class ElasticServiceProvider extends ServiceProvider
 {
     /**
      * Register services.
@@ -14,8 +14,8 @@ class QueueServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton('MyQueue', function () {
-            return new QueueService();
+        $this->app->singleton('Elastic', function () {
+            return new ElasticService();
         });
     }
 

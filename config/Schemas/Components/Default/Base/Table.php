@@ -21,7 +21,7 @@ return function($data,$component,$target){
                     'html'=>'添加',
                     'action'=>'add',
                     'icon'=>'el-icon-plus',
-                    'url'=>'/dialog/edit/{$COMPONENT}'
+                    'url'=>'/dialog/add/add/{$COMPONENT}'
                 ],
             ],
             'action'=>[
@@ -29,13 +29,13 @@ return function($data,$component,$target){
                     'type'=>'warning',
                     'html'=>'详情',
                     'action'=>'/',
-                    'url'=>'/dialog/show/{$COMPONENT}/{{id}}',
+                    'url'=>'/dialog/show/show/{$COMPONENT}/{{id}}',
                 ],
                 'edit'=>[
                     'type'=>'primary',
                     'html'=>'编辑',
                     'action'=>'/',
-                    'url'=>'/dialog/edit/{$COMPONENT}/{{id}}',
+                    'url'=>'/dialog/edit/edit/{$COMPONENT}/{{id}}',
                 ],
                 'del'=>[
                     'type'=>'danger',
